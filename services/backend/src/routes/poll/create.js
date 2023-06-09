@@ -4,7 +4,7 @@ import { validator } from '../../helpers/index.js'
 
 export default async (req, res, next) => {
   try {
-    const { id } = req.user
+    const { _id } = req.user
     const { title } = validator(
       req.body,
       Joi.object().keys({
@@ -13,7 +13,7 @@ export default async (req, res, next) => {
     )
     const poll = new Poll({
       title,
-      user: id,
+      user: _id,
     })
 
     await poll.save()
