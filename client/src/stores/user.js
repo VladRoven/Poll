@@ -40,6 +40,7 @@ export class User {
   async errorHandler(error, request) {
     switch (error.status) {
       case 401:
+        if (this.tokenChecked) return
         await this.checkToken()
         request()
         break

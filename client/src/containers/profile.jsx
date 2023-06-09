@@ -8,6 +8,9 @@ import {
   faArrowRightFromBracket,
   faPlus,
   faTrashCan,
+  faScrewdriverWrench,
+  faLock,
+  faUnlock,
 } from '@fortawesome/free-solid-svg-icons'
 import dayjs from 'dayjs'
 import Button from '../components/button'
@@ -199,8 +202,35 @@ const Profile = inject(
       })
     }
 
+    const createPoll = () => {
+      Common.showModal({
+        type: 'inputs',
+        title: 'Нове опитування',
+        btnConfirmTitle: 'Створити',
+        hideOnSubmit: false,
+        style: {
+          width: '500px',
+        },
+        fields: [
+          {
+            type: 'text',
+            placeholder: `Введіть назву опитування`,
+            name: 'title',
+          },
+        ],
+        onSubmit: async (fieldsRef, hide) => {
+          Poll.createPoll(fieldsRef.title.value.trim())
+          hide()
+        },
+      })
+    }
+
     useEffect(() => {
       Poll.loadPoll()
+
+      return () => {
+        Poll.clearPoll()
+      }
     }, [])
 
     return (
@@ -267,12 +297,41 @@ const Profile = inject(
               </div>
             </div>
             <div className="polls" data-aos="fade-left" data-aos-duration="500">
-              {!Poll.polls.length ? (
+              {!Poll.polls.length && !Poll.actualRequests.list ? (
                 <p id="not-found">Опитувань немає</p>
               ) : (
-                <div></div>
+                <div className="list">
+                  {Poll.polls.map(({ id, title, status }) => (
+                    <div className="poll" key={id}>
+                      <p>{title}</p>
+                      <span>
+                        {status === 'open' ? (
+                          <FontAwesomeIcon
+                            title="Відкрито"
+                            icon={faUnlock}
+                            className="status"
+                          />
+                        ) : status === 'close' ? (
+                          <FontAwesomeIcon
+                            title="Закрито"
+                            icon={faLock}
+                            className="status"
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            title="В розробці"
+                            icon={faScrewdriverWrench}
+                            className="status"
+                          />
+                        )}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               )}
-              <Button id="create">Створити</Button>
+              <Button id="create" onClick={() => createPoll()}>
+                Створити
+              </Button>
             </div>
           </div>
         </div>

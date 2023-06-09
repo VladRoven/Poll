@@ -597,6 +597,7 @@
   .user-data {
     min-width: 370px;
     max-width: 370px;
+    height: 70vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -605,6 +606,7 @@
     position: relative;
     box-shadow: 0px 0px 50px rgba(149, 191, 255, 0.35);
     border-radius: 20px;
+    overflow-y: auto;
 
     #logout {
       position: absolute;
@@ -632,7 +634,7 @@
     }
     #user-img {
       width: 130px;
-      height: 130px;
+      min-height: 130px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -724,20 +726,63 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     position: relative;
     box-shadow: 0px 0px 50px rgba(149, 191, 255, 0.35);
     border-radius: 20px;
     height: 70vh;
+    padding: 30px 40px;
+    justify-content: space-between;
 
     #not-found {
       color: $cyan;
       font-weight: 600;
       font-size: 18px;
+      height: 100%;
+      display: flex;
+      align-items: center;
     }
-    #create {
-      position: absolute;
-      bottom: 30px;
+    .list {
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: 86%;
+      width: 100%;
+      row-gap: 20px;
+      display: flex;
+      flex-direction: column;
+
+      .poll {
+        display: grid;
+        grid-template-columns: 1fr 50px;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: $blue;
+        transition: 0.2s;
+        border: 2px solid transparent;
+        color: $white;
+        cursor: pointer;
+
+        p {
+          font-weight: 600;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        span {
+          display: flex;
+          justify-content: end;
+
+          svg {
+            cursor: pointer;
+            font-size: 20px;
+            text-align: right;
+          }
+        }
+        &:hover {
+          border-color: $blue;
+          background-color: $white;
+          color: $blue;
+        }
+      }
     }
   }
 }
