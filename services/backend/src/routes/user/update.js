@@ -22,9 +22,7 @@ export default async (req, res, next) => {
     )
 
     if (!admin && id && id !== _id) throw new ForbiddenError('No rights')
-    const hashPassword = password
-      ? await bcrypt.hash(data.password, 7)
-      : undefined
+    const hashPassword = password ? await bcrypt.hash(password, 7) : undefined
     const result = await User.updateOne(
       { ...(id ? { _id: id } : { _id }) },
       {
@@ -33,7 +31,7 @@ export default async (req, res, next) => {
           ...(lastName ? { lastName } : {}),
           ...(email ? { email } : {}),
           ...(image ? { image } : {}),
-          ...(hashPassword ? { hashPassword } : {}),
+          ...(hashPassword ? { password: hashPassword } : {}),
         },
       },
       { upsert: true }

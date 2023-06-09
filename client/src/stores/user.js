@@ -30,6 +30,7 @@ export class User {
     uploadImage: false,
     update: false,
     remove: false,
+    resetPassword: false,
   }
 
   constructor() {
@@ -402,6 +403,32 @@ export class User {
       })
     } finally {
       this.setActualReqest('uploadImage', false)
+    }
+  }
+
+  @action async resetPassword(email, hide) {
+    if (this.actualRequests.resetPassword) return
+    this.setActualReqest('resetPassword', true)
+
+    try {
+      const { success } = await user.resetPassword({
+        email,
+      })
+
+      if (success) {
+        stores.Common.addInfoCard(
+          `На вказаний e-mail було відправлено новий пароль`
+        )
+        hide()
+      }
+    } catch (error) {
+      switch (error.status) {
+        case 404:
+          stores.Common.addInfoCard(`Користувача з таким e-mail не знайдено`)
+          break
+      }
+    } finally {
+      this.setActualReqest('resetPassword', false)
     }
   }
 }

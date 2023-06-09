@@ -8,4 +8,5 @@ export default {
   get: async params => request.get('/user', params),
   update: async params => request.put('/user', params),
   remove: async params => request.delete('/user', params),
+  resetPassword: async params => request.put('/user/reset-pass', params),
 }

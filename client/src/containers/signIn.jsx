@@ -1,10 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Header from '../components/header'
 import Footer from '../components/footer'
 import Input from '../components/input'
 import Button from '../components/button'
 import { inject, observer } from 'mobx-react'
 import { useNavigate } from 'react-router-dom'
+import { checkValid } from '../helpers'
+import { EMAIL_REGEX } from '../enums/constants'
 
 const SignIn = inject(
   'User',
@@ -23,11 +25,32 @@ const SignIn = inject(
 
     const handlerForgot = () =>
       Common.showModal({
-        text: 'Вы забыли пароль?',
-        btnConfirmTitle: 'Да',
-        btnCancelTitle: 'Нет',
-        onSubmit: () => {
-          console.log('submit')
+        type: 'inputs',
+        title: 'Скидання паролю',
+        btnConfirmTitle: 'Скинути',
+        hideOnSubmit: false,
+        style: {
+          width: '500px',
+        },
+        fields: [
+          {
+            type: 'text',
+            placeholder: `E-mail`,
+            name: 'email',
+          },
+        ],
+        onSubmit: async (fieldsRef, hide) => {
+          if (
+            !checkValid([
+              {
+                field: fieldsRef.email.value.trim(),
+                regex: EMAIL_REGEX,
+                errorText: `Некоректний e-mail`,
+              },
+            ])
+          )
+            return
+          User.resetPassword(fieldsRef.email.value.trim(), hide)
         },
       })
 
