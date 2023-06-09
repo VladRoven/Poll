@@ -1,0 +1,50 @@
+@import "../../assets/styles/colors";
+
+.poll-loader {
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: $cyan;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+
+  .logo {
+    background-color: $blue;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 200px;
+    margin-top: 20px;
+    box-shadow: 0px 0px 30px rgba(149, 191, 255, 0.35);
+    overflow: hidden;
+    animation: spin 3s infinite;
+
+    p {
+      font-family: "Vampiro One", cursive;
+      color: $white;
+      font-size: 217px;
+    }
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg) scale(1.2);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    box-shadow: 0 0 70px rgba(149, 191, 255, 0.43);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}

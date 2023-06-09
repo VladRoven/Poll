@@ -1,0 +1,47 @@
+@import "../../assets/styles/colors";
+
+footer {
+  display: grid;
+  background-color: $blue;
+  padding: 10px 130px;
+  grid-template-columns: 140px 1fr 60px;
+  align-items: center;
+
+  p {
+    font-family: "eUkr";
+    color: $white;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  nav {
+    ul {
+      list-style: none;
+      display: flex;
+      gap: 10px;
+
+      li {
+        font-family: "eUkr";
+        font-size: 13px;
+        font-weight: 600;
+
+        .link {
+          color: $white;
+          &:hover {
+            &::after {
+              background-color: $white;
+            }
+          }
+        }
+        &.line {
+          height: 1rem;
+          width: 1px;
+          background-color: $white;
+        }
+      }
+    }
+  }
+  .social {
+    display: flex;
+    gap: 12px;
+  }
+}

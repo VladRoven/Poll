@@ -1,0 +1,27 @@
+.envs: &envs
+  NODE_ENV: development
+
+  NPM_CONFIG_SHELL: /bin/bash
+  NPM_CONFIG_SCRIPT_SHELL: /bin/bash
+
+.common: &common
+  script: npm
+  args: start
+  watch: true
+  kill_timeout: 5000
+  autorestart: true
+  restart_delay: 3000
+  combine_logs: true
+  env:
+    <<: *envs
+
+apps:
+  - name: frontend
+    script: npm
+    args: start
+    cwd: './client'
+    watch: false
+
+  - name: backend
+    <<: *common
+    cwd: './services/backend'

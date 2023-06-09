@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "if [[ $NODE_ENV == 'development' ]]; then nodemon --experimental-modules; else node --experimental-modules src/index.js; fi"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@poll/env": "^1.0.0",
+    "@poll/mongo": "^1.0.0",
+    "bcrypt": "^5.1.0",
+    "dayjs": "^1.11.7",
+    "express": "^4.18.2",
+    "joi": "^17.9.2",
+    "jsonwebtoken": "^9.0.0",
+    "restify-errors": "^8.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

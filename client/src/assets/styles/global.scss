@@ -1,0 +1,72 @@
+@import "./colors";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+a,
+p,
+div,
+span,
+li {
+  font-family: "eUkr";
+}
+
+body {
+  transition: 0.2s;
+}
+.poll-modal-open {
+  overflow: hidden;
+  header,
+  .container,
+  footer {
+    filter: blur(3px);
+  }
+}
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: 0.2s;
+}
+.link {
+  padding-bottom: 5px;
+  position: relative;
+  cursor: pointer;
+
+  &:after {
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    background: $blue;
+    transition: width 0.2s ease 0s, left 0.2s ease 0s;
+    width: 0;
+  }
+  &:hover {
+    &::after {
+      width: 100%;
+      left: 0;
+    }
+  }
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}

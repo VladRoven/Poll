@@ -1,0 +1,117 @@
+@import '../../assets/styles/colors';
+
+header {
+  position: fixed;
+  display: flex;
+  padding: 15px 130px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+  z-index: 100;
+  transition: 0.2s;
+
+  &.hide {
+    transform: translateY(-100%);
+    box-shadow: none !important;
+  }
+  &.toggle {
+    background-color: $cyan;
+    box-shadow: 0px 4px 15px rgba(149, 191, 255, 0.393);
+
+    .logo {
+      color: $white;
+    }
+    .link {
+      color: $white !important;
+
+      &:hover {
+        color: $white !important;
+      }
+      &::after {
+        background: $white;
+      }
+    }
+    .navigate {
+      ul > li.active {
+        color: $white !important;
+      }
+    }
+    .user-menu #user-img {
+      color: $white;
+      transition: 0.2s;
+
+      &:hover {
+        color: $white;
+      }
+    }
+  }
+  .logo {
+    color: $blue;
+    font-family: 'KyivType';
+    line-height: 38px;
+    font-size: 45px;
+    font-weight: 700;
+    transition: 0.2s;
+  }
+  .navigate {
+    ul {
+      list-style: none;
+      display: inline-flex;
+      gap: 35px;
+      position: relative;
+
+      li {
+        font-size: 15px;
+        position: relative;
+        text-transform: uppercase;
+        font-weight: 600;
+        padding-bottom: 5px;
+        cursor: pointer;
+        transition: 0.2s;
+        color: $gray;
+
+        &:hover {
+          color: $blue;
+        }
+        &.active {
+          color: $blue !important;
+        }
+      }
+    }
+  }
+  .sign {
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .link {
+      color: $gray;
+
+      &:hover {
+        color: $blue;
+      }
+    }
+    .poll-button {
+      padding: 7px 12px;
+      border-radius: 10px;
+    }
+  }
+  .user-menu {
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    #user-img {
+      color: $blue;
+      transition: 0.2s;
+
+      &:hover {
+        color: $cyan;
+      }
+    }
+  }
+}

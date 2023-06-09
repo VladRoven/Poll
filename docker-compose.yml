@@ -1,0 +1,17 @@
+version: "2.4"
+
+services:
+  mongo:
+    container_name: poll-mongo
+    hostname: mongo
+    image: "mongo:latest"
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=poll
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
