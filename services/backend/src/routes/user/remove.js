@@ -12,7 +12,7 @@ export default async (req, res, next) => {
     const result = await User.deleteOne({ ...(id ? { _id: id } : { _id }) })
 
     if (result.deletedCount === 0)
-      throw new InvalidArgumentError('Update error')
+      throw new InvalidArgumentError('Remove error')
 
     res.status(200).json({ success: result.deletedCount === 1 })
   } catch (error) {

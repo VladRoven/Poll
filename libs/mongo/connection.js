@@ -7,7 +7,7 @@ const options = {
   connectTimeoutMS: 10000,
   socketTimeoutMS: 25000,
   useUnifiedTopology: true,
-  minPoolSize: 10
+  minPoolSize: 10,
 }
 const db = Mongoose.connection
 
@@ -28,9 +28,9 @@ db.on('close', () => {
 })
 
 export const mongoose = Mongoose
-export const { ObjectId } = Mongoose.Types
+export const ObjectId = Mongoose.Types.ObjectId
 export default {
   connect: async () => await mongoose.connect(MONGO_URI, options),
   disconnect: async () => await db.close(),
-  mongoose: Mongoose
+  mongoose: Mongoose,
 }

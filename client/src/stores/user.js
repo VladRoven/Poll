@@ -31,17 +31,18 @@ export class User {
     update: false,
     remove: false,
     resetPassword: false,
+    refresh: false,
   }
 
   constructor() {
     makeObservable(this)
   }
 
-  async errorHandler(error, request) {
+  async errorHandler(error, request, actual) {
     switch (error.status) {
       case 401:
-        if (this.tokenChecked) return
-        await this.checkToken()
+        if (!this.actualRequests.refresh) await this.checkToken()
+        if (actual) this.setActualReqest(actual, false)
         request()
         break
       case 11000:
@@ -113,6 +114,9 @@ export class User {
     }
 
     try {
+      if (this.actualRequests.refresh) return
+      this.setActualReqest('refresh', true)
+
       const localRefreshToken = localStorage.getItem('refreshToken')
       const { accessToken, refreshToken } = await user.refresh({
         refreshToken: localRefreshToken,
@@ -128,6 +132,8 @@ export class User {
       localStorage.setItem('refreshToken', refreshToken)
     } catch (error) {
       this.clearAllData()
+    } finally {
+      this.setActualReqest('refresh', false)
     }
   }
 
@@ -346,9 +352,13 @@ export class User {
       })
       return true
     } catch (error) {
-      this.errorHandler(error, () => {
-        this.update(data, reqId)
-      })
+      this.errorHandler(
+        error,
+        () => {
+          this.update(data, reqId)
+        },
+        'update'
+      )
       return false
     } finally {
       this.setActualReqest('update', false)
@@ -365,9 +375,13 @@ export class User {
 
       if (success) this.clearAllData()
     } catch (error) {
-      this.errorHandler(error, () => {
-        this.update(data, reqId)
-      })
+      this.errorHandler(
+        error,
+        () => {
+          this.update(data, reqId)
+        },
+        'remove'
+      )
     } finally {
       this.setActualReqest('remove', false)
     }
@@ -399,9 +413,13 @@ export class User {
       }
       onHide()
     } catch (error) {
-      this.errorHandler(error, () => {
-        this.uploadImage(img, onHide)
-      })
+      this.errorHandler(
+        error,
+        () => {
+          this.uploadImage(img, onHide)
+        },
+        'uploadImage'
+      )
     } finally {
       this.setActualReqest('uploadImage', false)
     }

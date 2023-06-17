@@ -1,0 +1,182 @@
+@import '../../assets/styles/colors';
+
+.add-question-modal-backdrop {
+  position: fixed;
+  z-index: 990;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: $cyan;
+  opacity: 0;
+  transition: opacity 0.15s linear;
+
+  &.show {
+    opacity: 0.5;
+  }
+}
+
+.add-question-modal {
+  position: fixed;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.15s linear;
+  background-color: $white;
+  padding: 30px 40px;
+  border-radius: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  align-items: center;
+
+  &.show {
+    opacity: 1;
+  }
+  .poll-input {
+    width: 100%;
+  }
+  .types {
+    display: flex;
+    column-gap: 20px;
+    color: $gray;
+    font-weight: 500;
+
+    p {
+      transition: 0.2s;
+    }
+    .active {
+      color: $blue;
+    }
+  }
+  .question-data {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+
+    &#variants {
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;
+
+      .add-variant {
+        color: $blue;
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        font-weight: 600;
+        font-size: 18px;
+        cursor: pointer;
+        transition: 0.2s;
+
+        svg {
+          font-size: 30px;
+        }
+        &:hover {
+          color: $cyan;
+        }
+      }
+
+      span:last-of-type {
+        margin-bottom: 20px;
+      }
+      .not-found {
+        color: $cyan;
+        font-weight: 600;
+      }
+      .variant {
+        width: 100%;
+        border-radius: 10px;
+        border: 2px solid $blue;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        column-gap: 20px;
+
+        .remove {
+          font-size: 21px;
+          color: $blue;
+          cursor: pointer;
+          transition: 0.2s;
+
+          &:hover {
+            color: $cyan;
+          }
+        }
+        input {
+          width: 100%;
+          border: none;
+          outline: none;
+          padding: 10px;
+          font-size: 14px;
+          font-weight: 500;
+          font-family: 'eUkr';
+          transition: 0.2s;
+          text-align: center;
+
+          &::placeholder {
+            color: $blue;
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+    &#open {
+      p {
+        text-align: center;
+        color: $blue;
+        font-weight: 600;
+        font-size: 18px;
+      }
+    }
+    &#scale {
+      row-gap: 25px;
+
+      .scale {
+        height: 7px;
+        background-color: $blue;
+        width: 92%;
+        position: relative;
+
+        &::after {
+          position: absolute;
+          width: 25px;
+          height: 25px;
+          content: '';
+          background-color: $blue;
+          border-radius: 50%;
+          left: 0;
+          top: -9px;
+        }
+        &::before {
+          position: absolute;
+          width: 25px;
+          height: 25px;
+          content: '';
+          background-color: $blue;
+          border-radius: 50%;
+          right: 0;
+          top: -9px;
+        }
+      }
+      .inputs {
+        width: 100%;
+
+        .poll-input {
+          padding-left: 0;
+          padding-right: 0;
+          width: 60px;
+          text-align: center;
+        }
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+}

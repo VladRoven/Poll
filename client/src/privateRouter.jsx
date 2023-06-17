@@ -9,10 +9,6 @@ const PrivateRouter = inject('User')(
     const [status, setStatus] = useState('loader')
 
     useEffect(() => {
-      User.checkToken()
-    }, [])
-
-    useEffect(() => {
       if (!User.token) {
         setStatus('redirect')
         return
@@ -22,10 +18,7 @@ const PrivateRouter = inject('User')(
         setStatus('redirect')
         return
       }
-      if (User.tokenChecked) {
-        setStatus('access')
-        return
-      }
+      setStatus('access')
     }, [User.token, User.tokenChecked])
 
     switch (status) {

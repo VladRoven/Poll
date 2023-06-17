@@ -50,6 +50,9 @@ const NotFound = loadable(() => import('./containers/notFound'), {
 const Profile = loadable(() => import('./containers/profile'), {
   fallback: <Loader />,
 })
+const Constructor = loadable(() => import('./containers/constructor'), {
+  fallback: <Loader />,
+})
 
 const App = inject('User')(
   observer(({ User }) => {
@@ -69,6 +72,7 @@ const App = inject('User')(
           <Route path="/sign-up" element={<SignUp />} />
           <Route element={<PrivateRouter />}>
             <Route path="/profile" element={<Profile />} />
+            <Route path="/constructor" element={<Constructor />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

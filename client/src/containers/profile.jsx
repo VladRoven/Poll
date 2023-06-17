@@ -11,11 +11,13 @@ import {
   faScrewdriverWrench,
   faLock,
   faUnlock,
+  faLink,
 } from '@fortawesome/free-solid-svg-icons'
 import dayjs from 'dayjs'
 import Button from '../components/button'
 import { checkValid } from '../helpers'
 import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from '../enums/constants'
+import { Link } from 'react-router-dom'
 
 const Profile = inject(
   'Poll',
@@ -226,10 +228,10 @@ const Profile = inject(
     }
 
     useEffect(() => {
-      Poll.loadPoll()
+      Poll.loadPolls()
 
       return () => {
-        Poll.clearPoll()
+        Poll.clearPolls()
       }
     }, [])
 
@@ -303,27 +305,63 @@ const Profile = inject(
                 <div className="list">
                   {Poll.polls.map(({ id, title, status }) => (
                     <div className="poll" key={id}>
-                      <p>{title}</p>
-                      <span>
-                        {status === 'open' ? (
-                          <FontAwesomeIcon
-                            title="Відкрито"
-                            icon={faUnlock}
-                            className="status"
-                          />
-                        ) : status === 'close' ? (
-                          <FontAwesomeIcon
-                            title="Закрито"
-                            icon={faLock}
-                            className="status"
-                          />
-                        ) : (
-                          <FontAwesomeIcon
-                            title="В розробці"
-                            icon={faScrewdriverWrench}
-                            className="status"
-                          />
-                        )}
+                      <Link
+                        to={`/${
+                          status === 'dev' ? 'constructor' : 'poll'
+                        }?id=${id}`}
+                        className="data"
+                      >
+                        <p>{title}</p>
+                        <span className="status">
+                          {status === 'open' ? (
+                            <FontAwesomeIcon title="Відкрито" icon={faUnlock} />
+                          ) : status === 'close' ? (
+                            <FontAwesomeIcon title="Закрито" icon={faLock} />
+                          ) : (
+                            <FontAwesomeIcon
+                              title="В розробці"
+                              icon={faScrewdriverWrench}
+                            />
+                          )}
+                        </span>
+                      </Link>
+                      <span
+                        className="post-link"
+                        onClick={() => {
+                          if (status === 'dev') {
+                            Common.addInfoCard(
+                              'Посилання не скопійовано. Опитування в розробці'
+                            )
+                            return
+                          }
+                          if (navigator.clipboard && window.isSecureContext) {
+                            navigator.clipboard.writeText(
+                              `${document.location.origin}/poll?id=${id}`
+                            )
+                            Common.addInfoCard(
+                              'Посилання скопійовано у буфер обміну'
+                            )
+                            return
+                          }
+
+                          const textarea = document.createElement('textarea')
+                          textarea.value = `${document.location.origin}/poll?id=${id}`
+                          textarea.style.position = 'absolute'
+                          textarea.style.opacity = 0
+                          document.body.prepend(textarea)
+                          textarea.select()
+
+                          try {
+                            document.execCommand('copy')
+                            Common.addInfoCard(
+                              'Посилання скопійовано у буфер обміну'
+                            )
+                          } finally {
+                            textarea.remove()
+                          }
+                        }}
+                      >
+                        <FontAwesomeIcon title="Посилання" icon={faLink} />
                       </span>
                     </div>
                   ))}

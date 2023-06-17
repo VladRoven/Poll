@@ -40,7 +40,7 @@ const poll = new Schema(
       default: null,
     },
     respondents: [respondent],
-    data: {
+    questions: {
       type: String,
       default: null,
     },
@@ -58,7 +58,7 @@ class Poll {
       user: poll.user,
       status: poll.status,
       respondents: poll.respondents || [],
-      data: poll.data,
+      questions: poll.questions ? JSON.parse(poll.questions) : [],
       dateOpen: poll.dateOpen,
       dateClose: poll.dateClose,
       create: poll.createdAt,

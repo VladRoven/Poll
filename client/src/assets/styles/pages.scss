@@ -752,37 +752,223 @@
 
       .poll {
         display: grid;
-        grid-template-columns: 1fr 50px;
-        padding: 20px;
-        border-radius: 10px;
-        background-color: $blue;
-        transition: 0.2s;
-        border: 2px solid transparent;
-        color: $white;
-        cursor: pointer;
+        grid-template-columns: 1fr 60px;
 
-        p {
-          font-weight: 600;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-        span {
-          display: flex;
-          justify-content: end;
+        .data {
+          display: grid;
+          grid-template-columns: 1fr 50px;
+          padding: 20px;
+          border-radius: 10px 0 0 10px;
+          background-color: $cyan;
+          transition: 0.2s;
+          border: 2px solid transparent;
+          color: $white;
+          cursor: pointer;
+          border-right: none;
 
-          svg {
-            cursor: pointer;
-            font-size: 20px;
-            text-align: right;
+          p {
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .status {
+            display: flex;
+            justify-content: end;
+
+            svg {
+              cursor: pointer;
+              font-size: 20px;
+              text-align: right;
+            }
+          }
+          &:hover {
+            border-color: $cyan;
+            background-color: $white;
+            color: $blue;
           }
         }
-        &:hover {
-          border-color: $blue;
-          background-color: $white;
-          color: $blue;
+        .post-link {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 0 10px 10px 0;
+          background-color: $blue;
+          color: $white;
+          font-size: 20px;
+          cursor: pointer;
+          transition: 0.2s;
+          border: 2px solid transparent;
+          border-left: none;
+
+          &:hover {
+            border-color: $blue;
+            background-color: $white;
+            color: $blue;
+          }
         }
       }
     }
+  }
+}
+
+// =======@ Constructor @=======
+#constructor-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+  padding-bottom: 30px;
+
+  .title {
+    color: $blue;
+  }
+  .questions {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 600px;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    row-gap: 50px;
+
+    .not-found {
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      row-gap: 30px;
+      color: $cyan;
+      font-weight: 600;
+    }
+    .add-question {
+      color: $blue;
+      display: flex;
+      align-items: center;
+      column-gap: 10px;
+      font-weight: 600;
+      font-size: 18px;
+      cursor: pointer;
+      transition: 0.2s;
+
+      svg {
+        font-size: 30px;
+      }
+      &:hover {
+        color: $cyan;
+      }
+    }
+    .question {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      box-shadow: 0px 0px 50px rgba(149, 191, 255, 0.35);
+      border-radius: 20px;
+      padding: 30px;
+      row-gap: 30px;
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: $blue;
+        text-align: center;
+
+        svg {
+          cursor: pointer;
+          font-size: 20px;
+          transition: 0.2s;
+
+          &:hover {
+            color: $cyan;
+          }
+        }
+      }
+      .body {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+      }
+      &#variants {
+        .body {
+          display: flex;
+          flex-direction: column;
+          row-gap: 10px;
+
+          .variant {
+            width: 100%;
+            border-radius: 10px;
+            border: 2px solid $blue;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            p {
+              color: $blue;
+              font-weight: 600;
+            }
+          }
+        }
+      }
+      &#open {
+        .body {
+          p {
+            text-align: center;
+            color: $blue;
+            font-weight: 500;
+          }
+        }
+      }
+      &#scale {
+        .body {
+          row-gap: 25px;
+          color: $blue;
+          font-weight: 500;
+
+          .scale {
+            height: 7px;
+            background-color: $blue;
+            width: 97%;
+            position: relative;
+
+            &::after {
+              position: absolute;
+              width: 25px;
+              height: 25px;
+              content: '';
+              background-color: $blue;
+              border-radius: 50%;
+              left: 0;
+              top: -9px;
+            }
+            &::before {
+              position: absolute;
+              width: 25px;
+              height: 25px;
+              content: '';
+              background-color: $blue;
+              border-radius: 50%;
+              right: 0;
+              top: -9px;
+            }
+          }
+          .inputs {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+          }
+        }
+      }
+    }
+  }
+  .buttons {
+    display: flex;
+    justify-content: center;
+    column-gap: 20px;
   }
 }
