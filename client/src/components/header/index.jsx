@@ -31,14 +31,14 @@ const Header = inject('User')(
       const handlerScroll = () => {
         if (!header.current) return
         if (
-          window.scrollY >= 150 &&
+          window.scrollY >= 50 &&
           !header.current.classList.contains('toggle')
         )
           header.current.classList.add('toggle')
-        if (window.scrollY < 150 && header.current.classList.contains('toggle'))
+        if (window.scrollY < 50 && header.current.classList.contains('toggle'))
           header.current.classList.remove('toggle')
         if (
-          window.scrollY >= 250 &&
+          window.scrollY >= 50 &&
           pageScroll.current < window.scrollY &&
           !header.current.classList.contains('hide')
         )

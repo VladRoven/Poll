@@ -191,14 +191,17 @@ const Modal = inject('Common')(
 
     useEffect(() => {
       const body = document.querySelector('body')
+      const html = document.querySelector('html')
 
       if (Common.isShowModal) {
         body.classList.add('poll-modal-open')
+        html.classList.add('poll-modal-open')
         setIsShow(true)
         return
       }
       setTimeout(() => setIsShow(false), 150)
       body.classList.remove('poll-modal-open')
+      html.classList.remove('poll-modal-open')
     }, [Common.isShowModal])
 
     return (

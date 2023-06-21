@@ -334,6 +334,12 @@ const Profile = inject(
                             )
                             return
                           }
+                          if (status === 'close') {
+                            Common.addInfoCard(
+                              'Посилання не скопійовано. Опитування закінчено'
+                            )
+                            return
+                          }
                           if (navigator.clipboard && window.isSecureContext) {
                             navigator.clipboard.writeText(
                               `${document.location.origin}/poll?id=${id}`

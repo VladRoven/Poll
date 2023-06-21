@@ -1,4 +1,4 @@
-@import "./colors";
+@import './colors';
 
 * {
   margin: 0;
@@ -16,7 +16,7 @@ p,
 div,
 span,
 li {
-  font-family: "eUkr";
+  font-family: 'eUkr';
 }
 
 body {
@@ -24,6 +24,7 @@ body {
 }
 .poll-modal-open {
   overflow: hidden;
+
   header,
   .container,
   footer {
@@ -42,7 +43,7 @@ a {
 
   &:after {
     bottom: 0;
-    content: "";
+    content: '';
     display: block;
     height: 2px;
     left: 50%;

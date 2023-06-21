@@ -51,7 +51,7 @@ const QuestionModal = inject(
     const handler = () => {
       switch (currentType) {
         case 'variants': {
-          const { title, variants } = {
+          const { title, variants, image } = {
             ...Poll.question,
             variants: Poll.question.variants || [],
           }
@@ -73,12 +73,14 @@ const QuestionModal = inject(
                 id: Date.now(),
                 type: currentType,
                 title: Poll.question.title,
+                image,
                 variants,
               }).then(() => Common.addInfoCard('Питання додано'))
             : Poll.updateQuestion({
                 id: Poll.question.id,
                 type: currentType,
                 title: Poll.question.title,
+                image,
                 variants,
               }).then(() => Common.addInfoCard('Питання змінено'))
           hideHandler()
@@ -95,17 +97,19 @@ const QuestionModal = inject(
                 id: Date.now(),
                 type: currentType,
                 title: Poll.question.title,
+                image: Poll.question.image,
               }).then(() => Common.addInfoCard('Питання додано'))
             : Poll.updateQuestion({
                 id: Poll.question.id,
                 type: currentType,
                 title: Poll.question.title,
+                image: Poll.question.image,
               }).then(() => Common.addInfoCard('Питання змінено'))
           hideHandler()
           return
         }
         case 'scale': {
-          const { from, step, to, title } = {
+          const { from, step, to, title, image } = {
             ...Poll.question,
             from: Number(Poll.question.from),
             step: Number(Poll.question.step),
@@ -136,6 +140,7 @@ const QuestionModal = inject(
                 id: Date.now(),
                 type: currentType,
                 title: Poll.question.title,
+                image,
                 from,
                 step,
                 to,
@@ -144,6 +149,7 @@ const QuestionModal = inject(
                 id: Poll.question.id,
                 type: currentType,
                 title: Poll.question.title,
+                image,
                 from,
                 step,
                 to,
@@ -165,7 +171,7 @@ const QuestionModal = inject(
                     <input
                       type="text"
                       value={variant}
-                      onInput={e => Poll.setVariant(id, e.target.value.trim())}
+                      onInput={e => Poll.setVariant(id, e.target.value)}
                       placeholder="Введіть варіант"
                     />
                     <FontAwesomeIcon
@@ -220,21 +226,21 @@ const QuestionModal = inject(
               <div className="inputs">
                 <Input
                   type="text"
-                  min={0}
                   pattern={/^\d+\.?\d{0,2}$/}
                   placeholder="Від"
-                  value={Poll.question.from}
+                  value={Poll.question.from.toString()}
                   onInput={e =>
                     Poll.setQuestionField({
                       from: e.target.validity.valid
                         ? e.target.value
+                        : Poll.question.from === 0
+                        ? 0
                         : Poll.question.from || '',
                     })
                   }
                 />
                 <Input
                   type="text"
-                  min={0.1}
                   pattern={/^\d+\.?\d{0,2}$/}
                   placeholder="Крок"
                   value={Poll.question.step}
@@ -248,7 +254,6 @@ const QuestionModal = inject(
                 />
                 <Input
                   type="text"
-                  min={0.1}
                   pattern={/^\d+\.?\d{0,2}$/}
                   placeholder="До"
                   value={Poll.question.to}
@@ -268,8 +273,10 @@ const QuestionModal = inject(
 
     useEffect(() => {
       const body = document.querySelector('body')
+      const html = document.querySelector('html')
 
       if (show) {
+        html.classList.add('poll-modal-open')
         body.classList.add('poll-modal-open')
         setIsShow(true)
         setCurrentType(prev => Poll.question.type || prev)
@@ -277,6 +284,7 @@ const QuestionModal = inject(
       }
       setTimeout(() => setIsShow(false), DELAY)
       body.classList.remove('poll-modal-open')
+      html.classList.remove('poll-modal-open')
     }, [show])
 
     return (
@@ -293,6 +301,46 @@ const QuestionModal = inject(
               value={Poll.question.title}
               onInput={e => Poll.setQuestionField({ title: e.target.value })}
             />
+            <div className="img-uploader">
+              <label
+                id="img-preview"
+                htmlFor="upload-input"
+                style={{
+                  ...(Poll.question.image
+                    ? {
+                        backgroundImage: `url(${Poll.question.image})`,
+                      }
+                    : {}),
+                }}
+              >
+                {Poll.question.image ? '' : 'Натисніть, щоб додати'}
+              </label>
+              <input
+                tabIndex="-1"
+                id="upload-input"
+                type="file"
+                accept=".jpg,.jpeg,.png"
+                onChange={async e => {
+                  const formData = new FormData()
+                  formData.append('image', e.target.files[0])
+                  const result = await fetch('https://api.imgur.com/3/image/', {
+                    method: 'post',
+                    headers: {
+                      Authorization: `Client-ID bca78d71abeb154`,
+                    },
+                    body: formData,
+                  })
+                    .then(data => data.json())
+                    .then(value => value)
+
+                  if (result.success)
+                    Poll.setQuestionField({ image: result.data.link })
+                }}
+              />
+            </div>
+            <Button onClick={() => Poll.setQuestionField({ image: undefined })}>
+              Видалити зображення
+            </Button>
             <div className="types">
               {types.map(({ type, label }, idx) => (
                 <p

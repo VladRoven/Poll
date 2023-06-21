@@ -36,6 +36,26 @@ const Constructor = inject(
           }),
       })
     }
+    const publish = () => {
+      Common.showModal({
+        text: 'Ви дійсно хочете опублікувати опитування?',
+        btnConfirmTitle: 'Так',
+        btnCancelTitle: 'Ні',
+        onSubmit: async () => {
+          if (!Poll.currentPoll || !Poll.currentPoll.questions.length) {
+            Common.addInfoCard('Опитування не може бути порожнім')
+            return
+          }
+          await Poll.update(
+            { status: 'open', dateOpen: new Date() },
+            Poll.currentPoll.id
+          ).then(() => {
+            Common.addInfoCard('Опитування опубліковано')
+            navigate('/profile')
+          })
+        },
+      })
+    }
     const removeQuestion = id => {
       Common.showModal({
         text: 'Ви дійсно хочете видалити питання?',
@@ -123,6 +143,9 @@ const Constructor = inject(
                         }}
                       />
                     </div>
+                    {question.image && (
+                      <img src={question.image} alt="Зображення" />
+                    )}
                     <div className="body">{renderQuestion(question)}</div>
                   </div>
                 ))}
@@ -142,25 +165,7 @@ const Constructor = inject(
             )}
           </div>
           <div className="buttons">
-            <Button
-              onClick={async () => {
-                if (!Poll.currentPoll || !Poll.currentPoll.questions.length) {
-                  Common.addInfoCard('Опитування не може бути порожнім')
-                  return
-                }
-                const success = await Poll.update(
-                  { status: 'open' },
-                  Poll.currentPoll.id
-                )
-
-                if (success) {
-                  Common.addInfoCard('Опитування опубліковано')
-                  navigate('/profile')
-                }
-              }}
-            >
-              Опублікувати
-            </Button>
+            <Button onClick={() => publish()}>Опублікувати</Button>
             <Button onClick={() => remove()}>Видалити</Button>
           </div>
         </div>

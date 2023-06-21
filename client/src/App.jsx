@@ -53,6 +53,9 @@ const Profile = loadable(() => import('./containers/profile'), {
 const Constructor = loadable(() => import('./containers/constructor'), {
   fallback: <Loader />,
 })
+const Poll = loadable(() => import('./containers/poll'), {
+  fallback: <Loader />,
+})
 
 const App = inject('User')(
   observer(({ User }) => {
@@ -73,6 +76,7 @@ const App = inject('User')(
           <Route element={<PrivateRouter />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/constructor" element={<Constructor />} />
+            <Route path="/poll" element={<Poll />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

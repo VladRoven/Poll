@@ -51,7 +51,23 @@ const poll = new Schema(
 )
 
 class Poll {
-  static dump(poll) {
+  static dumpRespondent(poll, userId) {
+    if (poll.status === 'close') {
+      return {
+        id: poll._id,
+        status: poll.status,
+      }
+    }
+    return {
+      id: poll._id,
+      title: poll.title,
+      status: poll.status,
+      respondent:
+        (poll.respondents && poll.respondents[userId.toString()]) || [],
+      questions: poll.questions ? JSON.parse(poll.questions) : [],
+    }
+  }
+  static dumpCreator(poll) {
     return {
       id: poll._id,
       title: poll.title,

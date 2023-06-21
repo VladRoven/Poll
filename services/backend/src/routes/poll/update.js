@@ -9,19 +9,28 @@ export default async (req, res, next) => {
   try {
     const { id } = req.body
     const { _id } = req.user
-    const { dateClose, dateOpen, questions, respondents, status, title, user } =
-      validator(
-        req.body.data,
-        Joi.object().keys({
-          dateClose: Joi.date(),
-          dateOpen: Joi.date(),
-          questions: Joi.string(),
-          respondents: Joi.array(),
-          status: Joi.string(),
-          title: Joi.string(),
-          user: Joi.string(),
-        })
-      )
+    const {
+      dateClose,
+      dateOpen,
+      questions,
+      respondents,
+      status,
+      title,
+      user,
+      image,
+    } = validator(
+      req.body.data,
+      Joi.object().keys({
+        dateClose: Joi.date().allow(null),
+        dateOpen: Joi.date(),
+        questions: Joi.string(),
+        respondents: Joi.array(),
+        status: Joi.string(),
+        title: Joi.string(),
+        user: Joi.string(),
+        image: Joi.string(),
+      })
+    )
 
     const [poll] = await Poll.find({ user: _id, _id: id }).lean()
     if (!poll) throw new ForbiddenError('No rights')
@@ -29,13 +38,14 @@ export default async (req, res, next) => {
       { _id: id },
       {
         $set: {
-          ...(dateClose ? { dateClose } : {}),
+          ...(dateClose || dateClose === null ? { dateClose } : {}),
           ...(dateOpen ? { dateOpen } : {}),
           ...(questions ? { questions } : {}),
           ...(respondents ? { respondents } : {}),
           ...(status ? { status } : {}),
           ...(title ? { title } : {}),
           ...(user ? { user: ObjectId(user) } : {}),
+          ...(image ? { image } : {}),
         },
       },
       { upsert: true }
