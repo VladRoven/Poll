@@ -10,6 +10,7 @@ export class Poll {
     get: false,
     remove: false,
     update: false,
+    report: false,
   }
   @observable currentPoll = null
   @observable question = {}
@@ -75,6 +76,8 @@ export class Poll {
       create: false,
       get: false,
       remove: false,
+      update: false,
+      report: false,
     }
   }
 
@@ -234,6 +237,32 @@ export class Poll {
     this.currentPoll = {
       ...this.currentPoll,
       questions: questions,
+    }
+  }
+
+  @action async getReport(id) {
+    try {
+      if (this.actualRequests.update) return
+      this.setActualReqest('report', true)
+
+      const file = await poll.report({ id })
+      const url = window.URL.createObjectURL(file)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `${this.currentPoll.title}.xlsx`
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+    } catch (error) {
+      this.errorHandler(
+        error,
+        () => {
+          this.getReport(id)
+        },
+        'report'
+      )
+    } finally {
+      this.setActualReqest('report', false)
     }
   }
 }

@@ -23,14 +23,21 @@ const formatGET = params => {
     .join('&')}`
 }
 
-const errorHandler = value =>
-  value.then(err => {
-    throw {
-      message: err.message,
-      status: err.status,
-      type: err.type,
-    }
-  })
+const errorHandler = value => {
+  if (value.then)
+    return value.then(err => {
+      throw {
+        message: err.message,
+        status: err.status,
+        type: err.type,
+      }
+    })
+  throw {
+    message: value.message,
+    status: value.status,
+    type: value.type,
+  }
+}
 
 export default {
   get: (url, params = {}) =>
@@ -44,9 +51,14 @@ export default {
           : {}),
       },
     })
-      .then(response =>
-        response.ok ? response.json() : Promise.reject(response.json())
-      )
+      .then(response => {
+        if (
+          response.ok &&
+          !response.headers.get('content-type').includes('application/json')
+        )
+          return response.blob()
+        return response.ok ? response.json() : Promise.reject(response.json())
+      })
       .catch(errorHandler),
   post: (url, params = {}) =>
     fetch(`${API_URL}${API_PREFIX}${url}`, {

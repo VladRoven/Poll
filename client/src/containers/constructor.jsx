@@ -101,7 +101,15 @@ const Constructor = inject(
     }, [])
 
     useEffect(() => {
-      if (!Poll.actualRequests.get && !Poll.currentPoll) navigate('/profile')
+      if (
+        (!Poll.actualRequests.get && !Poll.currentPoll) ||
+        (!Poll.actualRequests.get &&
+          Poll.currentPoll &&
+          Poll.currentPoll.status !== 'dev')
+      ) {
+        navigate('/profile')
+        return
+      }
     }, [Poll.actualRequests.get])
 
     return Poll.actualRequests.get || !Poll.currentPoll ? (

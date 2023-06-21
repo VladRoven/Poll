@@ -43,11 +43,14 @@ const Poll = inject(
         btnConfirmTitle: 'Так',
         btnCancelTitle: 'Ні',
         onSubmit: async () =>
-          await Poll.update({
-            status: 'dev',
-            dateClose: null,
-            dateOpen: null,
-          }).then(() => {
+          await Poll.update(
+            {
+              status: 'dev',
+              dateClose: null,
+              dateOpen: null,
+            },
+            id
+          ).then(() => {
             navigate(`/constructor?id=${id}`)
             Common.addInfoCard('Опитування отримало статус "В розробці"')
           }),
@@ -249,7 +252,20 @@ const Poll = inject(
             <Button onClick={() => (status === 'open' ? close() : open())}>
               {status === 'open' ? 'Закрити' : 'Відкрити'}
             </Button>
-            <Button>Звіт</Button>
+            <Button
+              onClick={() => {
+                if (status === 'open') {
+                  Common.addInfoCard(
+                    'Запит не формування звіту не відправлено. Опитування триває'
+                  )
+                  return
+                }
+                Common.addInfoCard('Запит не формування звіту відправлено')
+                Poll.getReport(id)
+              }}
+            >
+              Звіт
+            </Button>
           </div>
         </>
       )

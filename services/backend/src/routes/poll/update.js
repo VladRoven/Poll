@@ -22,7 +22,7 @@ export default async (req, res, next) => {
       req.body.data,
       Joi.object().keys({
         dateClose: Joi.date().allow(null),
-        dateOpen: Joi.date(),
+        dateOpen: Joi.date().allow(null),
         questions: Joi.string(),
         respondents: Joi.array(),
         status: Joi.string(),
