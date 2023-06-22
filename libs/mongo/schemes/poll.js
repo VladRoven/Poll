@@ -9,7 +9,7 @@ const respondent = new Schema({
     index: true,
   },
   answers: {
-    type: Array,
+    type: Object,
     require: true,
   },
 })
@@ -62,8 +62,11 @@ class Poll {
       id: poll._id,
       title: poll.title,
       status: poll.status,
-      respondent:
-        (poll.respondents && poll.respondents[userId.toString()]) || [],
+      respondent: poll.respondents.length
+        ? poll.respondents.some(
+            ({ user }) => user._id.toString() === userId.toString()
+          )
+        : false,
       questions: poll.questions ? JSON.parse(poll.questions) : [],
     }
   }

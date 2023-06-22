@@ -10,7 +10,7 @@ export default (id, admin) => {
     },
     JWT_SECRET,
     {
-      expiresIn: '30m',
+      expiresIn: '1h',
     }
   )
   const refreshToken = jwt.sign(

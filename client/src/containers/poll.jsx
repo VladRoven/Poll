@@ -95,6 +95,38 @@ const Poll = inject(
         },
       })
     }
+    const sendAnswer = () => {
+      Common.showModal({
+        text: 'Ви дійсно хочете завершити опитування?',
+        btnConfirmTitle: 'Так',
+        btnCancelTitle: 'Ні',
+        onSubmit: async () => {
+          const errors = []
+          Poll.currentPoll.questions.map(({ id, type, from }) => {
+            if (Poll.answers[id] && type === 'variants')
+              Poll.setAnswersField({ [id]: Poll.answers[id].toString() })
+            if (!Poll.answers[id] && type === 'scale')
+              Poll.setAnswersField({ [id]: from })
+            if (!Poll.answers[id] && type !== 'open') errors.push('id')
+          })
+          if (errors.length) {
+            Common.addInfoCard('Ви не дали відповідь на деякі питання')
+            return
+          }
+          await Poll.sendAnswers().then(success => {
+            if (success) {
+              Common.addInfoCard('Відповідь записано')
+              navigate('/profile')
+              return
+            }
+            Common.addInfoCard(
+              'Відповідь не записано. Опитування закрито або було видалено'
+            )
+            navigate('/profile')
+          })
+        },
+      })
+    }
 
     const renderCreator = () => {
       const { respondents, questions, status, dateOpen, dateClose } =
@@ -217,6 +249,13 @@ const Poll = inject(
                     </div>
                   )
                 case 'open':
+                  const noAnswer = answers.length
+                    ? answers.reduce(
+                        (acc, { answer }) => answer === undefined,
+                        false
+                      )
+                    : true
+
                   return (
                     <div
                       className="question"
@@ -228,13 +267,16 @@ const Poll = inject(
                       <h2>{question.title}</h2>
                       {question.image && <img src={question.image} />}
                       <div className="answers">
-                        {answers.length ? (
-                          answers.map(({ user, answer }, idx) => (
-                            <div className="answer" key={idx}>
-                              <p className="open-name">{user}</p>
-                              <p className="open-answer">{answer}</p>
-                            </div>
-                          ))
+                        {!noAnswer ? (
+                          answers.map(
+                            ({ user, answer }, idx) =>
+                              answer && (
+                                <div className="answer" key={idx}>
+                                  <p className="open-name">{user}</p>
+                                  <p className="open-answer">{answer}</p>
+                                </div>
+                              )
+                          )
                         ) : (
                           <div className="empty">
                             <p>Немає жодної відповіді</p>
@@ -271,11 +313,137 @@ const Poll = inject(
       )
     }
     const renderRespondent = () => {
+      const { respondent, questions, status } = Poll.currentPoll
+      if (status === 'close') {
+        return (
+          <div className="poll-close-info">
+            <h2>Опитування було закрито творцем</h2>
+            <p>
+              Нажаль, ви не зможете пройти данне опитування. Зверніться до
+              творця або зачекайте деякий час.
+            </p>
+            <Button onClick={() => navigate('/profile')}>
+              Повернутись в профіль
+            </Button>
+          </div>
+        )
+      }
+      if (respondent)
+        return (
+          <div className="poll-passed-info">
+            <h2>Опитування успішно пройдено</h2>
+            <p>
+              Ваша відповідь була записана. Опитування можна проходити не більше
+              одного разу.
+            </p>
+            <Button onClick={() => navigate('/profile')}>
+              Повернутись в профіль
+            </Button>
+          </div>
+        )
       return (
         <>
-          <div className={`questions ${view}`}></div>
+          <div className={`questions ${view}`}>
+            {questions.map(question => {
+              switch (question.type) {
+                case 'variants':
+                  return (
+                    <div
+                      className="question"
+                      id="variants"
+                      key={question.id}
+                      data-aos="fade-zoom-in"
+                      data-aos-duration="600"
+                    >
+                      <h2>{question.title}</h2>
+                      {question.image && <img src={question.image} />}
+                      <div className="variants">
+                        {question.variants.map(variant => (
+                          <div
+                            className={`variant ${
+                              Poll.answers[question.id] === variant.id
+                                ? 'current'
+                                : ''
+                            }`}
+                            key={variant.id}
+                            onClick={() => {
+                              if (Poll.answers[question.id] === variant.id) {
+                                Poll.removeAnswer(question.id)
+                                return
+                              }
+                              Poll.setAnswersField({
+                                [question.id]: variant.id,
+                              })
+                            }}
+                          >
+                            <p>{variant.variant}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                case 'scale':
+                  return (
+                    <div
+                      className="question"
+                      id="scale"
+                      key={question.id}
+                      data-aos="fade-zoom-in"
+                      data-aos-duration="600"
+                    >
+                      <h2>{question.title}</h2>
+                      {question.image && <img src={question.image} />}
+                      <div className="scale">
+                        <p title="Від">{question.from}</p>
+                        <input
+                          type="range"
+                          min={question.from}
+                          max={question.to}
+                          value={Poll.answers[question.id] || question.from}
+                          step={question.step}
+                          onChange={e => {
+                            Poll.setAnswersField({
+                              [question.id]: Number(e.target.value),
+                            })
+                          }}
+                        />
+                        <p title="До">{question.to}</p>
+                      </div>
+                      <div className="answer">
+                        <p>
+                          Ваша відповідь:{' '}
+                          <b>{Poll.answers[question.id] || question.from}</b>
+                        </p>
+                      </div>
+                    </div>
+                  )
+                case 'open':
+                  return (
+                    <div
+                      className="question"
+                      id="open"
+                      key={question.id}
+                      data-aos="fade-zoom-in"
+                      data-aos-duration="600"
+                    >
+                      <h2>{question.title}</h2>
+                      {question.image && <img src={question.image} />}
+                      <textarea
+                        className="answer"
+                        placeholder="Введіть вашу відповідь"
+                        onInput={e => {
+                          Poll.setAnswersField({
+                            [question.id]: e.target.value.trim(),
+                          })
+                        }}
+                      />
+                    </div>
+                  )
+              }
+            })}
+          </div>
           <div className="buttons">
-            <Button>Завершити</Button>
+            <Button onClick={() => sendAnswer()}>Завершити</Button>
           </div>
         </>
       )
@@ -283,6 +451,9 @@ const Poll = inject(
 
     useEffect(() => {
       Poll.loadPoll(id)
+      return () => {
+        Poll.clearPoll()
+      }
     }, [])
 
     useEffect(() => {
@@ -302,13 +473,15 @@ const Poll = inject(
       setView('respondent')
     }, [Poll.actualRequests.get])
 
-    return Poll.actualRequests.get || !Poll.currentPoll ? (
+    return Poll.actualRequests.get || !Poll.currentPoll || !view ? (
       <Loader />
     ) : (
       <>
         <Header />
         <div className="container" id="poll-page">
-          <h2 className="title">{Poll.currentPoll.title}</h2>
+          {!Poll.currentPoll?.respondent && (
+            <h2 className="title">{Poll.currentPoll.title}</h2>
+          )}
           {view === 'creator' ? renderCreator() : renderRespondent()}
         </div>
         <Footer />

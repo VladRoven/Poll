@@ -11,9 +11,11 @@ export class Poll {
     remove: false,
     update: false,
     report: false,
+    answer: false,
   }
   @observable currentPoll = null
   @observable question = {}
+  @observable answers = {}
 
   constructor() {
     makeObservable(this)
@@ -29,6 +31,21 @@ export class Poll {
     }
   }
 
+  @action setAnswers(answers) {
+    this.answers = answers
+  }
+
+  @action setAnswersField(data) {
+    this.answers = {
+      ...this.answers,
+      ...data,
+    }
+  }
+
+  @action removeAnswer(questionId) {
+    delete this.answers[questionId]
+  }
+
   @action setQuestion(question) {
     this.question = question
   }
@@ -38,6 +55,12 @@ export class Poll {
       ...this.question,
       ...data,
     }
+  }
+
+  @action clearPoll() {
+    this.answers = {}
+    this.currentPoll = {}
+    this.question = {}
   }
 
   @action removeVariant(id) {
@@ -78,6 +101,7 @@ export class Poll {
       remove: false,
       update: false,
       report: false,
+      answer: false,
     }
   }
 
@@ -242,7 +266,7 @@ export class Poll {
 
   @action async getReport(id) {
     try {
-      if (this.actualRequests.update) return
+      if (this.actualRequests.report) return
       this.setActualReqest('report', true)
 
       const file = await poll.report({ id })
@@ -263,6 +287,29 @@ export class Poll {
       )
     } finally {
       this.setActualReqest('report', false)
+    }
+  }
+
+  @action async sendAnswers() {
+    try {
+      if (this.actualRequests.answer) return
+      this.setActualReqest('answer', true)
+
+      const { success } = await poll.answer({
+        id: this.currentPoll.id,
+        answers: this.answers,
+      })
+      return success
+    } catch (error) {
+      this.errorHandler(
+        error,
+        () => {
+          this.sendAnswers()
+        },
+        'answer'
+      )
+    } finally {
+      this.setActualReqest('answer', false)
     }
   }
 }

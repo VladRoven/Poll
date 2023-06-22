@@ -6,4 +6,5 @@ export default {
   remove: async params => await request.delete('/poll', params),
   update: async params => await request.put('/poll', params),
   report: async params => await request.get('/poll/report', params),
+  answer: async params => await request.put('/poll/answer', params),
 }

@@ -984,6 +984,26 @@
   padding-top: 100px;
   padding-bottom: 30px;
 
+  .poll-close-info,
+  .poll-passed-info {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    color: $blue;
+    flex: 1 0 auto;
+    row-gap: 30px;
+
+    h2 {
+      font-size: 28px;
+    }
+    p {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
   .title {
     color: $blue;
   }
@@ -1180,6 +1200,151 @@
       }
     }
     &.respondent {
+      .question {
+        width: 600px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 30px;
+        box-shadow: 0px 0px 40px rgba(149, 191, 255, 0.35);
+        border-radius: 20px;
+        padding: 30px;
+
+        h2 {
+          color: $blue;
+          text-align: center;
+        }
+        img {
+          border-radius: 10px;
+        }
+        &#variants {
+          .variants {
+            display: flex;
+            flex-direction: column;
+            row-gap: 15px;
+
+            .variant {
+              box-shadow: 0px 0px 15px rgba(149, 191, 255, 0.35);
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border-radius: 10px;
+              padding: 20px;
+              cursor: pointer;
+              transition: 0.2s;
+
+              p {
+                position: relative;
+                mix-blend-mode: color-dodge;
+                font-weight: 600;
+                color: $blue;
+              }
+            }
+            .current {
+              background-color: $blue;
+              color: $white;
+            }
+          }
+        }
+        &#scale {
+          .scale {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            input {
+              -webkit-appearance: none;
+              width: 78%;
+              height: 7px;
+              background-color: $cyan;
+              border-radius: 5px;
+              outline: none;
+              position: relative;
+
+              &::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                width: 25px;
+                height: 25px;
+                cursor: pointer;
+                z-index: 2;
+                position: relative;
+                border-radius: 50%;
+                background: $blue;
+                cursor: pointer;
+                transition: 0.2s;
+                border: 4px solid transparent;
+
+                &:hover {
+                  background-color: $white;
+                  border-color: $blue;
+                }
+              }
+              &::-moz-range-thumb {
+                -webkit-appearance: none;
+                width: 17px;
+                height: 17px;
+                cursor: pointer;
+                z-index: 2;
+                position: relative;
+                border-radius: 50%;
+                background: $blue;
+                cursor: pointer;
+                transition: 0.2s;
+                border: 4px solid transparent;
+
+                &:active,
+                &:hover {
+                  background-color: $white;
+                  border-color: $blue;
+                }
+              }
+            }
+            p {
+              width: 40px;
+              height: 40px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-weight: 700;
+              color: $white;
+              font-size: 20px;
+              background-color: $blue;
+              border-radius: 50%;
+              padding-bottom: 2px;
+              cursor: pointer;
+            }
+          }
+          .answer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            P {
+              color: $blue;
+              font-weight: 500;
+              font-size: 17px;
+            }
+          }
+        }
+        &#open {
+          .answer {
+            width: 100%;
+            resize: none;
+            height: 180px;
+            outline: none;
+            border: none;
+            box-shadow: 0px 0px 15px rgba(149, 191, 255, 0.35);
+            border-radius: 10px;
+            font-family: 'eUkr';
+            padding: 15px;
+            font-size: 15px;
+
+            &::placeholder {
+              color: $blue;
+              opacity: 7;
+            }
+          }
+        }
+      }
     }
   }
   .buttons {

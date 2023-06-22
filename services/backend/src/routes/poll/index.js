@@ -5,6 +5,7 @@ import create from './create.js'
 import remove from './remove.js'
 import update from './update.js'
 import report from './report.js'
+import answer from './answer.js'
 
 const router = Router()
 
@@ -13,5 +14,6 @@ router.route('/').post(authenticate, create)
 router.route('/').delete(authenticate, remove)
 router.route('/').put(authenticate, update)
 router.route('/report').get(authenticate, report)
+router.route('/answer').put(authenticate, answer)
 
 export default router
