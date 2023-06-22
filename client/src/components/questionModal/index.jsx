@@ -228,7 +228,7 @@ const QuestionModal = inject(
                   type="text"
                   pattern={/^\d+\.?\d{0,2}$/}
                   placeholder="Від"
-                  value={Poll.question.from.toString()}
+                  value={Poll.question?.from?.toString()}
                   onInput={e =>
                     Poll.setQuestionField({
                       from: e.target.validity.valid
