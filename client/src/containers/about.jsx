@@ -53,11 +53,13 @@ const About = () => {
             alt="Конструктор"
             data-aos="fade-right"
             data-aos-duration="800"
+            data-aos-offset="50"
           />
           <span
             className="description"
             data-aos="fade-left"
             data-aos-duration="800"
+            data-aos-offset="50"
           >
             <h2>Зручний конструктор</h2>
             <p>
@@ -72,6 +74,7 @@ const About = () => {
             className="description"
             data-aos="fade-right"
             data-aos-duration="800"
+            data-aos-offset="50"
           >
             <h2>Адаптивний дизайн</h2>
             <p>
@@ -85,6 +88,7 @@ const About = () => {
             alt="Адаптив"
             data-aos="fade-left"
             data-aos-duration="800"
+            data-aos-offset="50"
           />
         </div>
       </div>

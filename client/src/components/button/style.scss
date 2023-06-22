@@ -1,4 +1,4 @@
-@import "../../assets/styles/colors";
+@import '../../assets/styles/colors';
 
 .poll-button {
   border: 2px solid $blue;
@@ -15,5 +15,11 @@
   &:hover {
     background-color: $white;
     color: $blue;
+  }
+
+  @media screen and (max-width: 500px) {
+    font-size: 13px;
+    padding: 7px 15px;
+    border-radius: 7px;
   }
 }

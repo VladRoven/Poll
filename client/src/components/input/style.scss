@@ -27,4 +27,10 @@
   &:focus {
     border: 2px solid $blue;
   }
+
+  @media screen and (max-width: 500px) {
+    font-size: 13px;
+    padding: 10px 7px;
+    border-radius: 7px;
+  }
 }

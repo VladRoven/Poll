@@ -25,7 +25,11 @@ const Main = inject('User')(
         <div className="container" id="main-page">
           <div id="header">
             <div className="context">
-              <h1 data-aos="fade-right" data-aos-duration="800">
+              <h1
+                data-aos="fade-right"
+                data-aos-duration="800"
+                data-aos-offset="50"
+              >
                 Сервіс онлайн опитувань
               </h1>
               <Link
@@ -44,7 +48,12 @@ const Main = inject('User')(
               data-aos="fade-left"
               data-aos-duration="1000"
             >
-              <div className="logo" data-aos="fade-left" data-aos-delay="800">
+              <div
+                className="logo"
+                data-aos="fade-left"
+                data-aos-delay="800"
+                data-aos-offset="50"
+              >
                 <p>P</p>
               </div>
             </div>
@@ -61,27 +70,47 @@ const Main = inject('User')(
             <h1>Для чого потрібен?</h1>
             <div className="data">
               <div className="block">
-                <div data-aos="fade-right" data-aos-duration="800">
+                <div
+                  data-aos="fade-right"
+                  data-aos-duration="800"
+                  data-aos-offset="50"
+                >
                   <FontAwesomeIcon icon={faChartPie} size="7x" />
                 </div>
-                <p data-aos="fade-left" data-aos-duration="800">
+                <p
+                  data-aos="fade-left"
+                  data-aos-duration="800"
+                  data-aos-offset="50"
+                >
                   Онлайн опитування це найефективніший спосіб проаналізувати
                   попит на товар і зрозуміти свою цільову аудиторію.
                 </p>
               </div>
               <div className="block center">
                 <section>
-                  <div data-aos="fade-right" data-aos-duration="800">
+                  <div
+                    data-aos="fade-right"
+                    data-aos-duration="800"
+                    data-aos-offset="50"
+                  >
                     <FontAwesomeIcon icon={faMagnifyingGlassChart} size="7x" />
                   </div>
-                  <p data-aos="fade-left" data-aos-duration="800">
+                  <p
+                    data-aos="fade-left"
+                    data-aos-duration="800"
+                    data-aos-offset="50"
+                  >
                     Збирайте матеріал, щоб краще пізнати свого клієнта, а
                     відповідно за допомогою цієї інформації підвищуйте прибуток.
                   </p>
                 </section>
               </div>
               <div className="block">
-                <div data-aos="fade-right" data-aos-duration="800">
+                <div
+                  data-aos="fade-right"
+                  data-aos-duration="800"
+                  data-aos-offset="50"
+                >
                   <FontAwesomeIcon icon={faPeopleGroup} size="6x" />
                 </div>
                 <p data-aos="fade-left" data-aos-duration="800">
@@ -98,6 +127,7 @@ const Main = inject('User')(
                 className="block"
                 data-aos="fade-right"
                 data-aos-duration="800"
+                data-aos-offset="50"
               >
                 <FontAwesomeIcon icon={faListCheck} size="6x" />
                 <h3>Створити опитування</h3>
@@ -111,6 +141,7 @@ const Main = inject('User')(
                 data-aos="fade-right"
                 data-aos-delay="300"
                 data-aos-duration="800"
+                data-aos-offset="50"
               >
                 <FontAwesomeIcon icon={faChartColumn} size="6x" />
                 <h3>Зібрати відповіді</h3>
@@ -121,6 +152,7 @@ const Main = inject('User')(
                 data-aos="fade-right"
                 data-aos-delay="600"
                 data-aos-duration="800"
+                data-aos-offset="50"
               >
                 <FontAwesomeIcon icon={faFileExcel} size="6x" />
                 <h3>Отримати результат</h3>
@@ -136,6 +168,7 @@ const Main = inject('User')(
                 data-aos="fade-left"
                 data-aos-delay="600"
                 data-aos-duration="800"
+                data-aos-offset="50"
               >
                 <FontAwesomeIcon icon={faMugHot} size="6x" />
                 <h3>Простота</h3>
@@ -148,6 +181,7 @@ const Main = inject('User')(
                 data-aos="fade-left"
                 data-aos-delay="300"
                 data-aos-duration="800"
+                data-aos-offset="50"
               >
                 <FontAwesomeIcon icon={faHandHoldingDollar} size="6x" />
                 <h3>Це безкоштовно</h3>
@@ -159,6 +193,7 @@ const Main = inject('User')(
                 className="block"
                 data-aos="fade-left"
                 data-aos-duration="800"
+                data-aos-offset="50"
               >
                 <FontAwesomeIcon icon={faHeadset} size="6x" />
                 <h3>Підтримка</h3>

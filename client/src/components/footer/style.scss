@@ -1,4 +1,4 @@
-@import "../../assets/styles/colors";
+@import '../../assets/styles/colors';
 
 footer {
   display: grid;
@@ -8,7 +8,7 @@ footer {
   align-items: center;
 
   p {
-    font-family: "eUkr";
+    font-family: 'eUkr';
     color: $white;
     font-weight: 700;
     font-size: 16px;
@@ -17,10 +17,10 @@ footer {
     ul {
       list-style: none;
       display: flex;
-      gap: 10px;
+      column-gap: 10px;
 
       li {
-        font-family: "eUkr";
+        font-family: 'eUkr';
         font-size: 13px;
         font-weight: 600;
 
@@ -42,6 +42,34 @@ footer {
   }
   .social {
     display: flex;
-    gap: 12px;
+    column-gap: 12px;
+  }
+
+  @media screen and (max-width: 500px) {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+
+    p {
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    nav {
+      ul {
+        column-gap: 6px;
+
+        li {
+          font-size: 12px;
+
+          &.line {
+            display: none;
+          }
+        }
+      }
+    }
+    .social {
+      font-size: 14px;
+      column-gap: 8px;
+    }
   }
 }

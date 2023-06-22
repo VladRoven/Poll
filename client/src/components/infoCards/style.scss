@@ -38,4 +38,17 @@
       transform: translateX(500px);
     }
   }
+
+  @media screen and (max-width: 500px) {
+    width: 320px;
+    right: 10px;
+
+    .card {
+      padding: 15px;
+
+      p {
+        font-size: 13px;
+      }
+    }
+  }
 }
