@@ -18,7 +18,7 @@ export default async (req, res, next) => {
       })
     )
     const password = generator.generate({
-      length: 10,
+      length: 30,
       numbers: true,
     })
     const hashPassword = await bcrypt.hash(password, 7)
