@@ -21,7 +21,7 @@ const outputQuestion = async poll => {
   const { respondents, questions, status, dateOpen, dateClose } = poll
   const workbook = new excel.Workbook()
   const worksheet = workbook.addWorksheet('Звіт')
-  const name = poll._id
+  const name = poll._id.toString()
   const __path = `${path.resolve('../../reports')}/${name}.xlsx`
 
   questions.map(question => {
