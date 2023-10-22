@@ -18,10 +18,10 @@ const countPercent = (countRespondents, variant, answers) => {
 }
 const outputQuestion = async poll => {
   let row = 1
-  const { respondents, questions, status, dateOpen, dateClose } = poll
+  const { id, respondents, questions, status, dateOpen, dateClose } = poll
   const workbook = new excel.Workbook()
   const worksheet = workbook.addWorksheet('Звіт')
-  const name = poll._id.toString()
+  const name = id.toString()
   const __path = `${path.resolve('../../reports')}/${name}.xlsx`
 
   questions.map(question => {
